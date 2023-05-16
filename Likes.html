@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Forum Demo</title>
+    <style>
+        .post {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f2f2f2;
+        }
+        .comment {
+            margin-left: 20px;
+            margin-bottom: 5px;
+        }
+        .like-btn {
+            color: blue;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="post-container">
+        <!-- Posts will be added dynamically here -->
+    </div>
+    <script>
+        // Data structure to hold posts
+        let posts = [];
+
+        // Function to add a post
+        function addPost(title, content) {
+            let post = {
+                title: title,
+                content: content,
+                likes: 0,
+                comments: []
+            };
+            posts.push(post);
+            renderPosts();
+        }
+
+        // Function to add a comment to a post
+        function addComment(postIndex, commentContent) {
+            let comment = {
+                content: commentContent,
+                likes: 0
+            };
+            posts[postIndex].comments.push(comment);
+            renderPosts();
+        }
+
+        // Function to like a post
+        function likePost(postIndex) {
+            posts[postIndex].likes++;
+            renderPosts();
+        }
+
+        // Function to like a comment
+        function likeComment(postIndex, commentIndex) {
+            posts[postIndex].comments[commentIndex].likes++;
+            renderPosts();
+        }
+
+        // Function to render posts and comments
+        function renderPosts() {
+            let postContainer = document.getElementById("post-container");
+            postContainer.innerHTML = "";
+
+            posts.forEach(function(post, postIndex) {
+                let postElement = document.createElement("div");
+                postElement.className = "post";
+                postElement.innerHTML = `
+                    <h3>${post.title}</h3>
+                    <p>${post.content}</p>
+                    <button class="like-btn" onclick="likePost(${postIndex})">Like</button>
+                    <span>Likes: ${post.likes}</span>
+                `;
+
+                post.comments.forEach(function(comment, commentIndex) {
+                    let commentElement = document.createElement("div");
+                    commentElement.className = "comment";
+                    commentElement.innerHTML = `
+                        <p>${comment.content}</p>
+                        <button class="like-btn" onclick="likeComment(${postIndex}, ${commentIndex})">Like</button>
+                        <span>Likes: ${comment.likes}</span>
+                    `;
+                    postElement.appendChild(commentElement);
+                });
+
+                postContainer.appendChild(postElement);
+            });
+        }
+    </script>
+</body>
+</html>
