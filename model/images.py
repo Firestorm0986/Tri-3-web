@@ -17,8 +17,6 @@ from sqlalchemy.exc import IntegrityError
 # -- a.) db.Model is like an inner layer of the onion in ORM
 # -- b.) User represents data we want to store, something that is built on db.Model
 # -- c.) SQLAlchemy ORM is layer on top of SQLAlchemy Core, then SQLAlchemy engine, SQL
-class Image(db.Model):
-    __tablename__ = 'users'  # table name is plural, class name is singular
 class Images(db.Model):
     __tablename__ = 'images'  # table name is plural, class name is singular
 
