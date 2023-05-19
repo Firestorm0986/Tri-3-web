@@ -1,5 +1,7 @@
 ## Frontend Code
-[Link](https://github.com/MuffinMan1287/ALAAT)
+[Repository](https://github.com/MuffinMan1287/ALAAT)
+
+[Frontend Site](muffinman1287.github.io/ALAAT/)
 
 ## [Flask Portfolio Starter](https://github.com/nighthawkcoders/flask_portfolio)
 Runtime link: https://flask.nighthawkcodingsociety.com/
