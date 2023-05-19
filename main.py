@@ -9,7 +9,7 @@ from model.jokes import initJokes
 from model.users import initUsers
 from model.players import initPlayers
 from model.images import initImages
-from model.taggingimgs import initTagging
+#rom model.taggingimgs import initTagging
 
 # setup APIs
 from api.covid import covid_api # Blueprint import api definition
@@ -53,7 +53,7 @@ def activate_job():  # activate these items
     initUsers()
     initPlayers()
     initImages()
-    initTagging()
+  #  initTagging()
 
 
 # this runs the application on the development server
