@@ -1,3 +1,4 @@
+"""
 import os
 import certifi
 import requests
@@ -91,3 +92,4 @@ def train_image_tagging_model():
 def initTagging():
 # Call the function to train the image tagging model when this file is executed
     train_image_tagging_model()
+"""
