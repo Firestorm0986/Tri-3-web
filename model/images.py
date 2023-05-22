@@ -6,7 +6,8 @@ import json
 
 from __init__ import app, db
 from sqlalchemy.exc import IntegrityError
-
+from sqlalchemy import Column, String
+import base64
 
 ''' Tutorial: https://www.sqlalchemy.org/library.html#tutorials, try to get into Python shell and follow along '''
 
@@ -26,16 +27,25 @@ class Images(db.Model):
     _uid = db.Column(db.String(255), unique=True, nullable=False)
     _likes = db.Column(db.Integer, unique=False, nullable=True)
     _dob = db.Column(db.Date)
+    _image = db.Column(db.String(255), unique=False, nullable=True)
 
     # Defines a relationship between User record and Notes table, one-to-many (one user to many notes)
 
     # constructor of a User object, initializes the instance variables within object (self)
-    def __init__(self, name, uid, likes, dob=date.today()):
+    def __init__(self, name, uid, likes, dob=date.today(), image=None):
         self._name = name    # variables with self prefix become part of the object, 
         self._uid = uid
         self.likes = likes
         self._dob = dob
+        self._image = image
 
+    @property
+    def image(self):
+        return self._image
+
+    @image.setter
+    def image(self, image_data):
+        self._image = image_data
     # a name getter method, extracts name from object
     @property
     def name(self):
@@ -89,13 +99,15 @@ class Images(db.Model):
     # returns self or None on error
     def create(self):
         try:
-            # creates a person object from User(db.Model) class, passes initializers
-            db.session.add(self)  # add prepares to persist person object to Users table
-            db.session.commit()  # SqlAlchemy "unit of work pattern" requires a manual commit
+            if self.image is not None:
+                self._image = base64.b64encode(self.image.encode()).decode()  # Encode the image data as base64 string
+            db.session.add(self)
+            db.session.commit()
             return self
         except IntegrityError:
             db.session.remove()
             return None
+
 
     # CRUD read converts self to dictionary
     # returns dictionary
@@ -106,6 +118,7 @@ class Images(db.Model):
             "uid": self.uid,
             "dob": self.dob,
             "likes": self.likes,
+            "image": self.image
         }
 
     # CRUD update: updates user name, password, phone
@@ -138,10 +151,10 @@ def initImages():
         """Create database and tables"""
         db.create_all()
         """Tester data for table"""
-        u1 = Images(name='Thomas Edison', uid='toby', likes=2, dob=date(1847, 2, 11))
-        u2 = Images(name='Nicholas Tesla', uid='niko', likes=2, dob=date(1856, 7, 10))
-        u3 = Images(name='Alexander Graham Bell', likes=2, uid='lex')
-        u4 = Images(name='Grace Hopper', uid='hop', likes=2, dob=date(1906, 12, 9))
+        u1 = Images(name='Thomas Edison', uid='toby', likes=2, dob=date(1847, 2, 11), image=None)
+        u2 = Images(name='Nicholas Tesla', uid='niko', likes=2, dob=date(1856, 7, 10), image=None)
+        u3 = Images(name='Alexander Graham Bell', likes=2, uid='lex', image=None)
+        u4 = Images(name='Grace Hopper', uid='hop', likes=2, dob=date(1906, 12, 9), image=None)
 
         images = [u1, u2, u3, u4]
 
