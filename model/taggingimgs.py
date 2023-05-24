@@ -12,7 +12,7 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 def fetch_image_data_from_api():
     # Make a request to the backend API to fetch image data
-    response = requests.get('http://your-backend-api.com/images')
+    response = requests.get('http://alaat.duckdns.org/images')
 
     # Assuming the API response contains a list of image URLs
     image_urls = response.json()['image_urls']
