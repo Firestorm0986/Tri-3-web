@@ -11,17 +11,10 @@ import base64
 
 ''' Tutorial: https://www.sqlalchemy.org/library.html#tutorials, try to get into Python shell and follow along '''
 
-# Define the Post class to manage actions in 'posts' table,  with a relationship to 'users' table
 
-# Define the User class to manage actions in the 'users' table
-# -- Object Relational Mapping (ORM) is the key concept of SQLAlchemy
-# -- a.) db.Model is like an inner layer of the onion in ORM
-# -- b.) User represents data we want to store, something that is built on db.Model
-# -- c.) SQLAlchemy ORM is layer on top of SQLAlchemy Core, then SQLAlchemy engine, SQL
 class Images(db.Model):
     __tablename__ = 'images'  # table name is plural, class name is singular
 
-    # Define the User schema with "vars" from object
     id = db.Column(db.Integer, primary_key=True)
     _name = db.Column(db.String(255), unique=False, nullable=False)
     _uid = db.Column(db.String(255), unique=True, nullable=False)
@@ -151,10 +144,10 @@ def initImages():
         """Create database and tables"""
         db.create_all()
         """Tester data for table"""
-        u1 = Images(name='Thomas Edison', uid='toby', likes=2, dob=date(1847, 2, 11), image=None)
+        u1 = Images(name='Thomas Edison', uid='toby', likes=1, dob=date(1847, 2, 11), image=None)
         u2 = Images(name='Nicholas Tesla', uid='niko', likes=2, dob=date(1856, 7, 10), image=None)
-        u3 = Images(name='Alexander Graham Bell', likes=2, uid='lex', image=None)
-        u4 = Images(name='Grace Hopper', uid='hop', likes=2, dob=date(1906, 12, 9), image=None)
+        u3 = Images(name='Alexander Graham Bell', likes=4, uid='lex', image=None)
+        u4 = Images(name='Grace Hopper', uid='hop', likes=3, dob=date(1906, 12, 9), image=None)
 
         images = [u1, u2, u3, u4]
 

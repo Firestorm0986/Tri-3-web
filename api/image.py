@@ -2,7 +2,7 @@ import json
 from flask import Blueprint, request, jsonify
 from flask_restful import Api, Resource # used for REST API building
 from datetime import datetime
-
+from operator import itemgetter
 from model.images import Images
 
 image_api = Blueprint('image_api', __name__,
@@ -31,7 +31,7 @@ class UserAPI:
             dob = body.get('dob')
 
             ''' #1: Key code block, setup USER OBJECT '''
-            uo = User(name=name, 
+            uo = Images(name=name, 
                       uid=uid, likes = likes)
             
             ''' Additional garbage error checking '''
@@ -52,14 +52,48 @@ class UserAPI:
             # failure returns error
             return {'message': f'Processed {name}, either a format error or User ID {uid} is duplicate'}, 400
 
-        def get(self): # Read Method
-            images = Images.query.all()    # read/extract all users from database
-            json_ready = [image.read() for image in images]  # prepare output in json
-            return jsonify(json_ready)  # jsonify creates Flask response object, more specific to APIs than json.dumps
+        def get(self):
+            images = Images.query.all()
+            json_ready = [image.read() for image in images]
+
+            # Sort the images based on the number of likes using merge sort
+            sorted_images = self.merge_sort(json_ready, key=itemgetter('likes'))
+
+            return jsonify(sorted_images)
+
+        def merge_sort(self, arr, key):
+            if len(arr) <= 1:
+                return arr
+
+            mid = len(arr) // 2
+            left_half = arr[:mid]
+            right_half = arr[mid:]
+
+            left_half = self.merge_sort(left_half, key=key)
+            right_half = self.merge_sort(right_half, key=key)
+
+            return self.merge(left_half, right_half, key=key)
+
+        def merge(self, left, right, key):
+            merged = []
+            left_index = 0
+            right_index = 0
+
+            while left_index < len(left) and right_index < len(right):
+                if key(left[left_index]) < key(right[right_index]):
+                    merged.append(left[left_index])
+                    left_index += 1
+                else:
+                    merged.append(right[right_index])
+                    right_index += 1
+
+            merged.extend(left[left_index:])
+            merged.extend(right[right_index:])
+
+            return merged
+
     
  
-
-            
 
     # building RESTapi endpoint
     api.add_resource(_CRUD, '/')
