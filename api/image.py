@@ -2,7 +2,7 @@ import json
 from flask import Blueprint, request, jsonify
 from flask_restful import Api, Resource # used for REST API building
 from datetime import datetime
-from operator import itemgetter
+
 from model.images import Images
 
 image_api = Blueprint('image_api', __name__,
@@ -29,10 +29,11 @@ class UserAPI:
             # look for password and dob
             likes = body.get('likes')
             dob = body.get('dob')
+            image = body.get('image')
 
             ''' #1: Key code block, setup USER OBJECT '''
             uo = Images(name=name, 
-                      uid=uid, likes = likes)
+                      uid=uid, likes = likes, image = image)
             
             ''' Additional garbage error checking '''
             # set password if provided
@@ -45,10 +46,10 @@ class UserAPI:
             
             ''' #2: Key Code block to add user to database '''
             # create user in database
-            image = uo.create()
+            img = uo.create()
             # success returns json of user
-            if image:
-                return jsonify(image.read())
+            if img:
+                return jsonify(img.read())
             # failure returns error
             return {'message': f'Processed {name}, either a format error or User ID {uid} is duplicate'}, 400
 

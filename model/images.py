@@ -20,7 +20,7 @@ class Images(db.Model):
     _uid = db.Column(db.String(255), unique=True, nullable=False)
     _likes = db.Column(db.Integer, unique=False, nullable=True)
     _dob = db.Column(db.Date)
-    _image = db.Column(db.String(255), unique=False, nullable=True)
+    _image = db.Column(db.String(20000), unique=False, nullable=True)
 
     # Defines a relationship between User record and Notes table, one-to-many (one user to many notes)
 
