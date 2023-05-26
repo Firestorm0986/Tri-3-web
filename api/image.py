@@ -4,6 +4,7 @@ from flask_restful import Api, Resource # used for REST API building
 from datetime import datetime
 
 from model.images import Images
+from operator import itemgetter
 
 image_api = Blueprint('image_api', __name__,
                    url_prefix='/api/images')
