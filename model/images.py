@@ -28,7 +28,7 @@ class Images(db.Model):
     def __init__(self, name, uid, likes, dob=date.today(), image=None):
         self._name = name    # variables with self prefix become part of the object, 
         self._uid = uid
-        self.likes = likes
+        self._likes = likes
         self._dob = dob
         self._image = image
 
@@ -92,8 +92,8 @@ class Images(db.Model):
     # returns self or None on error
     def create(self):
         try:
-            if self.image is not None:
-                self._image = base64.b64encode(self.image.encode()).decode()  # Encode the image data as base64 string
+            if self._image is not None:
+                self._image = base64.b64encode(self._image.encode()).decode()  # Encode the image data as base64 string
             db.session.add(self)
             db.session.commit()
             return self

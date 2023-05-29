@@ -50,7 +50,7 @@ class UserAPI:
             img = uo.create()
             # success returns json of user
             if img:
-                return jsonify(img.read())
+                return jsonify(img)
             # failure returns error
             return {'message': f'Processed {name}, either a format error or User ID {uid} is duplicate'}, 400
 
