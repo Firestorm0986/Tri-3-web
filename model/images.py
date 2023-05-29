@@ -37,8 +37,8 @@ class Images(db.Model):
         return self._image
 
     @image.setter
-    def image(self, image_data):
-        self._image = image_data
+    def image(self, image):
+        self._image = image
     # a name getter method, extracts name from object
     @property
     def name(self):
@@ -92,8 +92,6 @@ class Images(db.Model):
     # returns self or None on error
     def create(self):
         try:
-            if self._image is not None:
-                self._image = base64.b64encode(self._image.encode()).decode()  # Encode the image data as base64 string
             db.session.add(self)
             db.session.commit()
             return self
