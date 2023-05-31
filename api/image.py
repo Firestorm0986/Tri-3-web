@@ -93,6 +93,21 @@ class UserAPI:
             merged.extend(right[right_index:])
 
             return merged
+        
+        def patch(self):
+            body = request.get_json()
+            id = body.get('id')
+            image = Images.query.filter_by(id=id).first()
+            try:
+                name = body.get('name')
+                uid = body.get('uid')
+                likes = body.get('likes')
+                image.update(uid=uid, likes=likes, name=name)
+                return jsonify(image.get())
+            except:
+                print(f"error with {id}")
+
+
 
     
  
